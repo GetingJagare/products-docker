@@ -11,4 +11,5 @@ RUN docker-php-ext-install mysqli pdo pdo_mysql gd zip bcmath ctype intl mbstrin
 
 RUN echo 'memory_limit = 2048M' >> /usr/local/etc/php/conf.d/docker-php-memlimit.ini;
 RUN echo '\nerror_reporting=E_ERROR' >> /usr/local/etc/php/conf.d/base.ini;
+RUN echo '\ndisplay_errors=On' >> /usr/local/etc/php/conf.d/base.ini;
 RUN echo '\nshort_open_tag=On' >> /usr/local/etc/php/conf.d/base.ini;
