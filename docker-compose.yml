@@ -3,7 +3,9 @@ services:
   php:
     container_name: products_php_apache
     build:
-      dockerfile: php/Dockerfile
+      context: ..
+      dockerfile: compose/php/Dockerfile
+    user: '1000:1000'  
     volumes:
       - ../products:/var/www/html/:rw
       - ./apache_conf:/etc/apache2/sites-enabled/
