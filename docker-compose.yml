@@ -1,21 +1,23 @@
 version: '2'
 services:
-  php:
+  products_php:
     container_name: products_php_apache
+    image: products:latest
     build:
       dockerfile: php/Dockerfile
-    user: '1000:1000'  
+    user: '1000:1000'
     volumes:
       - ../products:/var/www/html/:rw
       - ./apache_conf:/etc/apache2/sites-enabled/
     ports:
       - '80:80'
     networks:
-      - my-network
+      - products_network
     depends_on:
-      - mysql
-
-  mysql:
+      - products_mysql
+  products_composer:
+    image: composer/composer:2.5.4
+  products_mysql:
     container_name: products_mysql
     image: mysql:5.7.40
     ports:
@@ -29,23 +31,24 @@ services:
     volumes:
       - products_mysql_data:/var/lib/mysql
       - ./mysql_conf/my.cnf:/etc/my.cnf
+      - ./db:/docker-entrypoint-initdb.d
     networks:
-      - my-network
+      - products_network
 
   phpmyadmin:
     container_name: products_pma
-    image: phpmyadmin/phpmyadmin:latest
+    image: phpmyadmin:5.2.1
     ports:
       - '8080:80'
     environment:
-      PMA_HOST: mysql
+      PMA_HOST: products_mysql
     depends_on:
-      - mysql
+      - products_mysql
     networks:
-      - my-network
+      - products_network
 
 volumes:
   products_mysql_data:
 networks:
-  my-network:
+  products_network:
     driver: bridge

@@ -13,3 +13,5 @@ RUN echo 'memory_limit = 2048M' >> /usr/local/etc/php/conf.d/docker-php-memlimit
 RUN echo '\nerror_reporting=E_ERROR' >> /usr/local/etc/php/conf.d/base.ini;
 RUN echo '\ndisplay_errors=On' >> /usr/local/etc/php/conf.d/base.ini;
 RUN echo '\nshort_open_tag=On' >> /usr/local/etc/php/conf.d/base.ini;
+
+COPY --from=composer/composer:latest-bin /composer /usr/bin/composer
